@@ -9,6 +9,8 @@ import {SetConfigParam} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interf
 import {UlnConfig} from "@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/UlnBase.sol";
 
 contract LzMessage is OApp {
+    string public message;
+
     constructor(address _endpoint) OApp(_endpoint, msg.sender) Ownable(msg.sender) {}
 
     event Send(uint32 dstEid, string message, bytes payload, MessagingReceipt messageReceipt);
@@ -56,7 +58,8 @@ contract LzMessage is OApp {
         address _executor,
         bytes calldata _extraData
     ) internal override {
-        emit Receive(_origin, _guid, _payload, _executor, _extraData, abi.decode(_payload, (string)));
+        message = abi.decode(_payload, (string));
+        emit Receive(_origin, _guid, _payload, _executor, _extraData, message);
     }
 
     function setPeer(uint32 _eid, bytes32 _peer) public virtual override {
