@@ -11,7 +11,7 @@ import {UlnConfig} from "@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/UlnBa
 contract LzMessage is OApp {
     string public message;
 
-    constructor(address _endpoint) OApp(_endpoint, msg.sender) Ownable(msg.sender) {}
+    constructor(address _endpoint, address _owner) OApp(_endpoint, _owner) Ownable(_owner) {}
 
     event Send(uint32 dstEid, string message, bytes payload, MessagingReceipt messageReceipt);
     event Receive(Origin origin, bytes32 guid, bytes payload, address executor, bytes extraData, string parseMsg);
